@@ -644,7 +644,7 @@ if __name__ == "__main__":
 
         print(f"production basic result: {result1}")
 
-        os.remove(audio_filename)
+        #os.remove(audio_filename)
 
         '''
         # Extract features
