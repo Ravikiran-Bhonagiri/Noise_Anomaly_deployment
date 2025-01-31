@@ -22,7 +22,7 @@ RATE = 44100
 RECORD_SECONDS = 5
 
 ## model artifacts
-MODEL_PATH = "model_artifacts/Logistic_Regression_float64_.pkl"
+MODEL_PATH = "model_artifacts/Logistic_Regression_0.2.pkl"
 STANDARD_SCALER_PATH = "model_artifacts/scaler.pkl"
 LABEL_ENCODER_PATH = "model_artifacts/label_encoder.pkl"
 
@@ -305,11 +305,13 @@ def extract_audio_features_basic_profile(audio_file):
     print(f"Harmonic and Percussive RMS calculation took {hpss_time:.4f} seconds")
 
     # 12. Pitch (Fundamental Frequency)
+    '''
     start_time = time.time()
     f0, _, _ = librosa.pyin(y, fmin=librosa.note_to_hz('C2'), fmax=librosa.note_to_hz('C7'))
     features["mean_pitch"] = np.nan_to_num(np.nanmean(f0), nan=0.0)
     pitch_time = time.time() - start_time
     print(f"Pitch calculation took {pitch_time:.4f} seconds")
+    '''
 
     # 13. Chromagram from Constant-Q Transform (CQT)
     start_time = time.time()
@@ -642,6 +644,7 @@ if __name__ == "__main__":
 
         print(f"production basic result: {result1}")
 
+        '''
         # Extract features
         start_time = time.time()
         print(f"Extracting features from {audio_filename}")
@@ -668,5 +671,6 @@ if __name__ == "__main__":
         
         report = compare_dictionaries(result1, result2)
         print(format_comparison_report(report))
+        '''
 
         time.sleep(2)  # Wait 5 seconds before the next recording
