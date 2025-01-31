@@ -24,3 +24,39 @@ Prediction took 0.01 seconds
 
 
 {'zcr_mean': 0.026705925536542923, 'spectral_centroid_mean': 1846.2745766162911, 'spectral_rolloff_mean': 4004.3264437717517, 'spectral_bandwidth_mean': 2748.968611396459, 'rms_mean': 0.53161556, 'mfcc_1_mean': -36.391994, 'mfcc_2_mean': 170.0808, 'mfcc_3_mean': -32.04505, 'mfcc_4_mean': 64.689285, 'mfcc_5_mean': 8.592943, 'mfcc_6_mean': 19.795425, 'mfcc_7_mean': -7.6722374, 'mfcc_8_mean': 14.934921, 'mfcc_9_mean': -2.8656921, 'mfcc_10_mean': 2.5790744, 'mfcc_11_mean': -0.66949713, 'mfcc_12_mean': 2.338304, 'mfcc_13_mean': -7.254202, 'chroma_mean': 0.3259749, 'spectral_contrast_mean': 14.797362893801095, 'tonnetz_mean': 0.013036188420907252, 'onset_strength_mean': 0.9556733, 'harmonic_rms': 0.4014959, 'percussive_rms': 0.1788181, 'mean_pitch': 468.12814, 'chroma_cqt_mean': 0.58883303, 'spectral_flatness_mean': 0.0005562045, 'spectral_entropy': 11.728003, 'crest_factor': 2.242518, 'attack_time': 6.802721088435374e-05, 'decay_time': 9.070294784580499e-05, 'skewness': 0.03702108259467724, 'kurtosis': -0.8644199745889192, 'timestamp': '2025-01-31_12-46-42', 'prediction': 'off_state', 'audio_filename': 'Device1_2025-01-31_12-46-42.wav'}
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Audio loading took 0.0041 seconds
+Zero Crossing Rate calculation took 0.0114 seconds
+Spectral Centroid calculation took 0.0777 seconds
+Spectral Rolloff calculation took 0.0570 seconds
+Spectral Bandwidth calculation took 0.1184 seconds
+RMS Energy calculation took 0.0355 seconds
+MFCC calculation took 0.0812 seconds
+Chroma Features calculation took 0.1010 seconds
+Spectral Contrast calculation took 0.0799 seconds
+Tonnetz calculation took 1.6354 seconds
+Onset Strength calculation took 0.0566 seconds
+Harmonic and Percussive RMS calculation took 1.2752 seconds
+Chromagram from CQT calculation took 0.5110 seconds
+Spectral Flatness calculation took 0.0514 seconds
+Spectral Entropy calculation took 0.1299 seconds
+Crest Factor calculation took 0.0009 seconds
+Attack and Decay Time calculation took 0.0828 seconds
+Skewness and Kurtosis calculation took 0.0177 seconds
+Features extraction basic took 4.33 seconds
+Prediction took 0.01 seconds
+Prediction: off_state
+production basic result: {'zcr_mean': 0.002112864341647332, 'spectral_centroid_mean': 483.0565999839714, 'spectral_rolloff_mean': 391.8443436412413, 'spectral_bandwidth_mean': 1829.2060520040075, 'rms_mean': 0.057675753, 'mfcc_1_mean': -483.49506, 'mfcc_2_mean': 150.54288, 'mfcc_3_mean': 55.204185, 'mfcc_4_mean': 32.304226, 'mfcc_5_mean': 30.767538, 'mfcc_6_mean': 16.904366, 'mfcc_7_mean': 10.40895, 'mfcc_8_mean': 9.280425, 'mfcc_9_mean': 8.388637, 'mfcc_10_mean': 10.532912, 'mfcc_11_mean': 10.14967, 'mfcc_12_mean': 7.053668, 'mfcc_13_mean': 7.5981183, 'chroma_mean': 0.83121634, 'spectral_contrast_mean': 14.52974011524934, 'tonnetz_mean': 0.007402940195378493, 'onset_strength_mean': 0.86369294, 'harmonic_rms': 0.05639198, 'percussive_rms': 0.0041282247, 'chroma_cqt_mean': 0.5226976, 'spectral_flatness_mean': 0.00011303385, 'spectral_entropy': 8.59003581886287e-06, 'crest_factor': 3.547771, 'attack_time': 0.2539455782312925, 'decay_time': 4.952040816326531, 'skewness': 0.028914476033670544, 'kurtosis': -0.02489953010699919, 'timestamp': '2025-01-31_13-27-29', 'prediction': 'off_state', 'audio_filename': 'Device1_2025-01-31_13-27-29.wav'}
+Recording audio to Device1_2025-01-31_13-27-41.wav
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
