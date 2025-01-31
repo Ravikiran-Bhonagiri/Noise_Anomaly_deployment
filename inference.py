@@ -360,7 +360,7 @@ def extract_audio_features_basic_profile(audio_file):
     features["skewness"] = skew(y)
     features["kurtosis"] = kurtosis(y)
     skew_kurtosis_time = time.time() - start_time
-    print(f"Skewness and Kurtosis calculation took {skew_kurtosis_time:.4f} seconds")me = time.time() - start_time
+    print(f"Skewness and Kurtosis calculation took {skew_kurtosis_time:.4f} seconds")
     return features
 
 def extract_audio_features_optimized(audio_file):
