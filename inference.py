@@ -23,8 +23,8 @@ RECORD_SECONDS = 5
 
 ## model artifacts
 MODEL_PATH = "model_artifacts/Logistic_Regression_0.2.pkl"
-STANDARD_SCALER_PATH = "model_artifacts/scaler.pkl"
-LABEL_ENCODER_PATH = "model_artifacts/label_encoder.pkl"
+STANDARD_SCALER_PATH = "model_artifacts/scaler_0.2.pkl"
+LABEL_ENCODER_PATH = "model_artifacts/label_encoder_0.2.pkl"
 
 def compare_dictionaries(dict1, dict2, float_tol=1e-9):
     """
