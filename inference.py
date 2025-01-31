@@ -31,9 +31,7 @@ class Predictor:
         """Initialize with specific model or best model"""
         self.scaler = joblib.load(STANDARD_SCALER_PATH)
         self.label_encoder = joblib.load(LABEL_ENCODER_PATH)
-
-        if model_name:
-            self.model = joblib.load(MODEL_PATH)
+        self.model = joblib.load(MODEL_PATH)
 
     def predict(self, input_data):
         """Make prediction on new data"""
