@@ -209,9 +209,11 @@ if __name__ == "__main__":
         print(f"Audio saved to {audio_filename}")
         
         # Extract features
+        start_time = time.time()
         print(f"Extracting features from {audio_filename}")
         features = extract_audio_features_basic(audio_filename)
-        print(f"Features extracted")
+        end_time = time.time()
+        print(f"Features extraction took {end_time - start_time:.2f} seconds")
 
         # Predict using the model
         start_time = time.time()
@@ -228,6 +230,6 @@ if __name__ == "__main__":
             "audio_filename": audio_filename  # Store the single prediction value
         } 
 
-        print("production result: {result}")
+        print(f"production result: {result}")
 
         time.sleep(2)  # Wait 5 seconds before the next recording
