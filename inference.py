@@ -80,9 +80,10 @@ def extract_audio_features_optimized(audio_file):
     # Temporal features
     features.update({
         "zcr_mean": _get_mean(librosa.feature.zero_crossing_rate, y),
-        "rms_mean": _get_mean(librosa.feature.rms, y=y),
-        "crest_factor": np.max(np.abs(y)) / (features["rms_mean"] + 1e-7)
+        "rms_mean": _get_mean(librosa.feature.rms, y=y)
     })
+
+    features["crest_factor"] = np.max(np.abs(y)) / (features["rms_mean"] + 1e-7)
     
     # Spectral features
     spectral_features = {
