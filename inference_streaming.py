@@ -151,7 +151,7 @@ stream.start_stream()
 try:
     predictor = Predictor()
     while True:
-        time.sleep(DURATION)  # Wait for 2 seconds
+        time.sleep(1)  # Wait for 2 seconds
         timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
 
         if not audio_queue.empty():
