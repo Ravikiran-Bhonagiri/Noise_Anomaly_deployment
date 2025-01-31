@@ -48,6 +48,105 @@ class Predictor:
         return self.label_encoder.inverse_transform(prediction)
 
 
+import librosa
+import numpy as np
+from scipy.signal import hilbert
+from scipy.stats import skew, kurtosis
+
+def extract_audio_features_optimized(audio_file):
+    """
+    Extract audio features with optimized implementation
+    
+    Parameters:
+        audio_file (str): Path to the audio file
+        
+    Returns:
+        dict: Dictionary of extracted audio features
+    """
+    # Load audio with resampling prevention
+    y, sr = librosa.load(audio_file, sr=None)
+    
+    features = {}
+    
+    # Helper functions
+    def _get_mean(feature_func, *args, **kwargs):
+        return np.nanmean(feature_func(*args, **kwargs))
+    
+    def _spectral_entropy(signal, bins=10):
+        psd = np.abs(np.fft.fft(signal)) ** 2
+        hist = np.histogram(psd, bins=bins, density=True)[0]
+        return -np.sum(hist * np.log2(hist + 1e-10))
+    
+    # Temporal features
+    features.update({
+        "zcr_mean": _get_mean(librosa.feature.zero_crossing_rate, y),
+        "rms_mean": _get_mean(librosa.feature.rms, y=y),
+        "crest_factor": np.peak2peak(y) / (features["rms_mean"] + 1e-7)
+    })
+    
+    # Spectral features
+    spectral_features = {
+        'centroid': librosa.feature.spectral_centroid,
+        'rolloff': librosa.feature.spectral_rolloff,
+        'bandwidth': librosa.feature.spectral_bandwidth,
+        'contrast': librosa.feature.spectral_contrast,
+        'flatness': librosa.feature.spectral_flatness
+    }
+    
+    for name, func in spectral_features.items():
+        key = f"spectral_{name}_mean"
+        features[key] = _get_mean(func, y=y, sr=sr)
+    
+    # Chroma features
+    chroma_types = {
+        'stft': librosa.feature.chroma_stft,
+        'cqt': librosa.feature.chroma_cqt
+    }
+    
+    for chroma_type, func in chroma_types.items():
+        features[f"chroma_{chroma_type}_mean"] = _get_mean(func, y=y, sr=sr)
+    
+    # MFCCs (vectorized computation)
+    mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+    features.update({
+        f"mfcc_{i+1}_mean": np.mean(mfccs[i]) 
+        for i in range(13)
+    })
+    
+    # Harmonic analysis
+    harmonic, percussive = librosa.effects.hpss(y)
+    features.update({
+        "harmonic_rms": _get_mean(librosa.feature.rms, y=harmonic),
+        "percussive_rms": _get_mean(librosa.feature.rms, y=percussive),
+        "tonnetz_mean": _get_mean(librosa.feature.tonnetz, y=harmonic, sr=sr)
+    })
+    
+    # Pitch detection with PYIN
+    f0, _, _ = librosa.pyin(y, 
+                          fmin=librosa.note_to_hz('C2'), 
+                          fmax=librosa.note_to_hz('C7'))
+    features["mean_pitch"] = np.nan_to_num(np.nanmean(f0), nan=0.0)
+    
+    # Temporal characteristics
+    envelope = np.abs(hilbert(y))
+    threshold = 0.5 * envelope.max()
+    attack_decay = {
+        "attack_time": np.argmax(envelope > threshold) / sr,
+        "decay_time": (len(y) - np.argmax(envelope[::-1] > threshold)) / sr
+    }
+    features.update(attack_decay)
+    
+    # Statistical features
+    stats = {
+        "skewness": skew(y),
+        "kurtosis": kurtosis(y),
+        "spectral_entropy": _spectral_entropy(y),
+        "onset_strength_mean": _get_mean(librosa.onset.onset_strength, y=y, sr=sr)
+    }
+    features.update(stats)
+    
+    return features
+
 def extract_audio_features_basic(audio_file):
     """
     Extract audio features from the input audio file.
@@ -213,7 +312,31 @@ if __name__ == "__main__":
         print(f"Extracting features from {audio_filename}")
         features = extract_audio_features_basic(audio_filename)
         end_time = time.time()
-        print(f"Features extraction took {end_time - start_time:.2f} seconds")
+        print(f"Features extraction basic took {end_time - start_time:.2f} seconds")
+
+        # Predict using the model
+        start_time = time.time()
+        predictions = predictor.predict(features)
+        end_time = time.time()
+        print(f"Prediction took {end_time - start_time:.2f} seconds")
+
+        print(f"Prediction: {predictions[0]}")
+
+        # Prepare data as a single dictionary
+        result = features | {
+            "timestamp": timestamp,
+            "prediction": predictions[0],
+            "audio_filename": audio_filename  # Store the single prediction value
+        }
+
+        print(f"production basic result: {result}")
+
+        # Extract features
+        start_time = time.time()
+        print(f"Extracting features from {audio_filename}")
+        features = extract_audio_features_optimized(audio_filename)
+        end_time = time.time()
+        print(f"Features extraction optimized took {end_time - start_time:.2f} seconds")
 
         # Predict using the model
         start_time = time.time()
@@ -230,6 +353,6 @@ if __name__ == "__main__":
             "audio_filename": audio_filename  # Store the single prediction value
         } 
 
-        print(f"production result: {result}")
+        print(f"production optimized result: {result}")
 
         time.sleep(2)  # Wait 5 seconds before the next recording
