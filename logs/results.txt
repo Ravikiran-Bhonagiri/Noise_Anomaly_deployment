@@ -57,6 +57,65 @@ Recording audio to Device1_2025-01-31_13-27-41.wav
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
+Architecture:             aarch64
+  CPU op-mode(s):         32-bit, 64-bit
+  Byte Order:             Little Endian
+CPU(s):                   4
+  On-line CPU(s) list:    0-3
+Vendor ID:                ARM
+  Model name:             Cortex-A72
+    Model:                3
+    Thread(s) per core:   1
+    Core(s) per cluster:  4
+    Socket(s):            -
+    Cluster(s):           1
+    Stepping:             r0p3
+    CPU(s) scaling MHz:   33%
+    CPU max MHz:          1800.0000
+    CPU min MHz:          600.0000
+    BogoMIPS:             108.00
+    Flags:                fp asimd evtstrm crc32 cpuid
+Caches (sum of all):      
+  L1d:                    128 KiB (4 instances)
+  L1i:                    192 KiB (4 instances)
+  L2:                     1 MiB (1 instance)
+Vulnerabilities:          
+  Gather data sampling:   Not affected
+  Itlb multihit:          Not affected
+  L1tf:                   Not affected
+  Mds:                    Not affected
+  Meltdown:               Not affected
+  Mmio stale data:        Not affected
+  Reg file data sampling: Not affected
+  Retbleed:               Not affected
+  Spec rstack overflow:   Not affected
+  Spec store bypass:      Vulnerable
+  Spectre v1:             Mitigation; __user pointer sanitization
+  Spectre v2:             Vulnerable
+  Srbds:                  Not affected
+  Tsx async abort:        Not affected
+
+Audio loading took 0.0041 seconds
+Zero Crossing Rate calculation took 0.0114 seconds
+Spectral Centroid calculation took 0.0777 seconds
+Spectral Rolloff calculation took 0.0570 seconds
+Spectral Bandwidth calculation took 0.1184 seconds
+RMS Energy calculation took 0.0355 seconds
+MFCC calculation took 0.0812 seconds
+Chroma Features calculation took 0.1010 seconds
+Spectral Contrast calculation took 0.0799 seconds
+Tonnetz calculation took 1.6354 seconds
+Onset Strength calculation took 0.0566 seconds
+Harmonic and Percussive RMS calculation took 1.2752 seconds
+Chromagram from CQT calculation took 0.5110 seconds
+Spectral Flatness calculation took 0.0514 seconds
+Spectral Entropy calculation took 0.1299 seconds
+Crest Factor calculation took 0.0009 seconds
+Attack and Decay Time calculation took 0.0828 seconds
+Skewness and Kurtosis calculation took 0.0177 seconds
+Features extraction basic took 4.33 seconds
+
+
 
 
 
