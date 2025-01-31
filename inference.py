@@ -26,6 +26,110 @@ MODEL_PATH = "model_artifacts/Logistic_Regression_float64_.pkl"
 STANDARD_SCALER_PATH = "model_artifacts/scaler.pkl"
 LABEL_ENCODER_PATH = "model_artifacts/label_encoder.pkl"
 
+def compare_dictionaries(dict1, dict2, float_tol=1e-9):
+    """
+    Compare two dictionaries for key/value discrepancies with numerical tolerance for floats
+    
+    Parameters:
+        dict1 (dict): First dictionary to compare
+        dict2 (dict): Second dictionary to compare
+        float_tol (float): Absolute tolerance for float comparisons (default: 1e-9)
+        
+    Returns:
+        dict: Dictionary containing:
+            - missing_keys: Keys present in one dict but not the other
+            - type_mismatches: Keys with different value types
+            - value_mismatches: Keys with differing values
+    """
+    report = {
+        'missing_keys': {
+            'in_dict1': [],
+            'in_dict2': []
+        },
+        'type_mismatches': {},
+        'value_mismatches': {}
+    }
+    
+    all_keys = set(dict1.keys()) | set(dict2.keys())
+    
+    for key in all_keys:
+        # Check for missing keys
+        if key not in dict1:
+            report['missing_keys']['in_dict1'].append(key)
+            continue
+        if key not in dict2:
+            report['missing_keys']['in_dict2'].append(key)
+            continue
+            
+        val1 = dict1[key]
+        val2 = dict2[key]
+        
+        # Check type mismatches
+        if type(val1) != type(val2):
+            report['type_mismatches'][key] = f"{type(val1)} vs {type(val2)}"
+            continue
+            
+        # Value comparison logic
+        try:
+            if isinstance(val1, float):
+                # Float comparison with tolerance
+                if not np.isclose(val1, val2, atol=float_tol):
+                    report['value_mismatches'][key] = {
+                        'dict1_value': val1,
+                        'dict2_value': val2,
+                        'absolute_diff': abs(val1 - val2)
+                    }
+            elif isinstance(val1, np.ndarray):
+                # Numpy array comparison
+                if not np.array_equal(val1, val2, equal_nan=True):
+                    report['value_mismatches'][key] = "Array values differ"
+            else:
+                # Standard comparison for other types
+                if val1 != val2:
+                    report['value_mismatches'][key] = {
+                        'dict1_value': val1,
+                        'dict2_value': val2
+                    }
+        except Exception as e:
+            report['value_mismatches'][key] = f"Comparison failed: {str(e)}"
+    
+    return report
+
+def format_comparison_report(report):
+    """Format the comparison report into a human-readable string"""
+    output = []
+    
+    # Missing keys
+    if report['missing_keys']['in_dict1']:
+        output.append("Keys missing in first dictionary:")
+        output.extend(f" - {key}" for key in report['missing_keys']['in_dict1'])
+        
+    if report['missing_keys']['in_dict2']:
+        output.append("\nKeys missing in second dictionary:")
+        output.extend(f" - {key}" for key in report['missing_keys']['in_dict2'])
+    
+    # Type mismatches
+    if report['type_mismatches']:
+        output.append("\nType mismatches:")
+        output.extend(f" - {key}: {types}" for key, types in report['type_mismatches'].items())
+    
+    # Value mismatches
+    if report['value_mismatches']:
+        output.append("\nValue mismatches:")
+        for key, details in report['value_mismatches'].items():
+            if isinstance(details, dict):
+                line = f" - {key}:"
+                line += f"\n   First value:  {details['dict1_value']}"
+                line += f"\n   Second value: {details['dict2_value']}"
+                if 'absolute_diff' in details:
+                    line += f"\n   Absolute difference: {details['absolute_diff']:.2e}"
+                output.append(line)
+            else:
+                output.append(f" - {key}: {details}")
+    
+    return "\n".join(output) if output else "Dictionaries are identical"
+
+
 class Predictor:
     def __init__(self, model_name=None):
         """Initialize with specific model or best model"""
@@ -410,5 +514,8 @@ if __name__ == "__main__":
         } 
 
         print(f"production old result: {result2}")
+        
+        report = compare_dictionaries(result1, result2)
+        print(format_comparison_report(report))
 
         time.sleep(2)  # Wait 5 seconds before the next recording
