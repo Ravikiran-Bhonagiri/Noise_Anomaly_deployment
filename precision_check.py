@@ -32,3 +32,7 @@ if __name__ == "__main__":
 
     # Check Python float precision (usually FP64)
     print("Python float size:", sys.float_info.dig)  # 15-17 digits (FP64)
+
+    # Check NumPy defaults
+    print("NumPy default float:", np.finfo(np.float_).dtype)   # float64
+    print("NumPy default int:  ", np.iinfo(np.int_).dtype)      # int64
