@@ -172,6 +172,15 @@ try:
 
             print(f"Predicted result: {result}")
 
+            # --- Save Audio Chunk as a WAV File ---
+            wav_filename = f"audio_chunk_{timestamp}.wav"
+            with wave.open(wav_filename, "wb") as wf:
+                wf.setnchannels(1)  # Mono
+                wf.setsampwidth(2)  # 16-bit audio
+                wf.setframerate(SAMPLING_RATE)
+                wf.writeframes(audio_chunk.tobytes())  # Convert to byte format
+            print(f"Saved audio: {wav_filename}")
+
 except KeyboardInterrupt:
     print("Stopping...")
     stream.stop_stream()
