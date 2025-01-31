@@ -132,7 +132,7 @@ def extract_audio_features(y, sr):
 
 def audio_callback(in_data, frame_count, time_info, status):
     """Callback function for PyAudio stream."""
-    audio_data = np.frombuffer(in_data, dtype=np.int16).astype(np.float32) / 32768.0  # Normalize
+    audio_data = np.frombuffer(in_data, dtype=np.int16).astype(np.float32)
     audio_queue.put(audio_data)
     return (in_data, pyaudio.paContinue)
 
