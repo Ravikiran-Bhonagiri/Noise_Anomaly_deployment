@@ -1,6 +1,7 @@
 import sys
 import time
 import platform
+import numpy as np
 
 def check_system_precision():
     """Check numerical and time-related precision metrics"""
@@ -27,3 +28,7 @@ def check_system_precision():
 
 if __name__ == "__main__":
     check_system_precision()
+
+
+    # Check Python float precision (usually FP64)
+    print("Python float size:", sys.float_info.dig)  # 15-17 digits (FP64)
