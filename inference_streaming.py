@@ -14,7 +14,7 @@ from azure.storage.blob import BlobServiceClient
 
 # Constants for audio streaming
 SAMPLING_RATE = 44100  # Sampling rate in Hz
-DURATION = 5           # Capture every 2 seconds
+DURATION = 2           # Capture every 2 seconds
 CHUNK_SIZE = int(SAMPLING_RATE * DURATION)  # Adjust buffer size
 
 FORMAT = pyaudio.paInt16
