@@ -22,23 +22,18 @@ RATE = 44100
 RECORD_SECONDS = 5
 
 ## model artifacts
-MODEL_PATH = "model_artifacts/decision_tree.joblib"
-STANDARD_SCALER_PATH = "model_artifacts/standard_scaler.joblib"
-LABEL_ENCODER_PATH = "model_artifacts/label_encoder.joblib"
+MODEL_PATH = "model_artifacts/Logistic_Regression_float64_.pkl"
+STANDARD_SCALER_PATH = "model_artifacts/scaler.pkl"
+LABEL_ENCODER_PATH = "model_artifacts/label_encoder.pkl"
 
 class Predictor:
     def __init__(self, model_name=None):
         """Initialize with specific model or best model"""
-        self.scaler = joblib.load('preprocessing/scaler.pkl')
-        self.label_encoder = joblib.load('preprocessing/label_encoder.pkl')
+        self.scaler = joblib.load(STANDARD_SCALER_PATH)
+        self.label_encoder = joblib.load(LABEL_ENCODER_PATH)
 
         if model_name:
-            self.model = joblib.load(f'models/{model_name.replace(" ", "_")}.pkl')
-        else:
-            # Automatically select best model by F1 score
-            metrics = pd.read_csv('model_metrics.csv')
-            best_model = metrics.loc[metrics['F1'].idxmax()]['Model']
-            self.model = joblib.load(f'models/{best_model.replace(" ", "_")}.pkl')
+            self.model = joblib.load(MODEL_PATH)
 
     def predict(self, input_data):
         """Make prediction on new data"""
