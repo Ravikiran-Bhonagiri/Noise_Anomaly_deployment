@@ -19,12 +19,12 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
-RECORD_SECONDS = 5
+RECORD_SECONDS = 1
 
 ## model artifacts
-MODEL_PATH = "model_artifacts/Logistic_Regression_0.2.pkl"
-STANDARD_SCALER_PATH = "model_artifacts/scaler_0.2.pkl"
-LABEL_ENCODER_PATH = "model_artifacts/label_encoder_0.2.pkl"
+MODEL_PATH = "model_artifacts_xgboost/XGBoost_test_size_0.2.pkl"
+STANDARD_SCALER_PATH = "model_artifacts_xgboost/scaler.pkl"
+LABEL_ENCODER_PATH = "model_artifacts_xgboost/label_encoder.pkl"
 
 def compare_dictionaries(dict1, dict2, float_tol=1e-9):
     """
@@ -611,6 +611,7 @@ if __name__ == "__main__":
     predictor = Predictor()
 
     while True:
+        
         timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
         audio_filename = f"Device1_{timestamp}.wav"
         json_filename = f"Device1_{timestamp}.json"
@@ -644,35 +645,6 @@ if __name__ == "__main__":
 
         print(f"production basic result: {result1}")
 
-        #os.remove(audio_filename)
-
-        '''
-        # Extract features
-        start_time = time.time()
-        print(f"Extracting features from {audio_filename}")
-        features = extract_audio_features_old(audio_filename)
-        end_time = time.time()
-        print(f"Features extraction optimized took {end_time - start_time:.2f} seconds")
-
-        # Predict using the model
-        start_time = time.time()
-        predictions = predictor.predict(features)
-        end_time = time.time()
-        print(f"Prediction took {end_time - start_time:.2f} seconds")
-
-        print(f"Prediction: {predictions[0]}")
-
-        # Prepare data as a single dictionary
-        result2 = features | {
-            "timestamp": timestamp,
-            "prediction": predictions[0],
-            "audio_filename": audio_filename  # Store the single prediction value
-        } 
-
-        print(f"production old result: {result2}")
+        os.remove(audio_filename)
         
-        report = compare_dictionaries(result1, result2)
-        print(format_comparison_report(report))
-        '''
-
-        time.sleep(2)  # Wait 5 seconds before the next recording
+        time.sleep(1)
